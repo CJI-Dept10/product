@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CJI Chemical - Dept 10 Global Catalog</title>
+    <style>
+        /* --- 基础样式 --- */
+        :root {
+            --primary: #003366; 
+            --secondary: #f68b1f; 
+            --bg: #f4f6f9;
+            --text: #333;
+            --card-bg: #fff;
+        }
+        body { font-family: 'Segoe UI', 'Helvetica Neue', 'Microsoft YaHei', sans-serif; background: var(--bg); margin: 0; color: var(--text); padding-bottom: 100px; }
+        
+        /* 通知栏 */
+        .notice-bar { background-color: #fff3cd; color: #856404; text-align: center; padding: 8px 20px; font-size: 13px; border-bottom: 1px solid #ffeeba; display: flex; justify-content: center; align-items: center; gap: 10px; }
+        .notice-icon { font-size: 16px; }
+
+        /* 导航栏 */
+        header { background: #fff; border-bottom: 3px solid var(--primary); position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .nav-inner { max-width: 1400px; margin: 0 auto; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; }
+        .brand { display: flex; align-items: center; gap: 12px; }
+        .brand-logo { font-size: 32px; color: var(--primary); } 
+        .brand-text h1 { font-size: 20px; margin: 0; color: var(--primary); font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; }
+        .brand-text h2 { font-size: 12px; margin: 0; color: #666; font-weight: 600; background: #eee; display: inline-block; padding: 2px 8px; border-radius: 4px; margin-top: 4px; }
+
+        .lang-control-area { display: flex; align-items: center; gap: 15px; }
+        .manual-lang-btn { border: 1px solid var(--primary); color: var(--primary); background: white; padding: 5px 12px; border-radius: 4px; font-size: 12px; cursor: pointer; font-weight: bold; white-space: nowrap; }
+        .manual-lang-btn:hover { background: #eef2f7; }
+
+        /* 谷歌翻译 */
+        #google_translate_element { min-width: 120px; display: block; }
+        .goog-te-banner-frame { display: none !important; }
+        body { top: 0px !important; } 
+        .goog-tooltip { display: none !important; }
+        .goog-te-gadget-simple { background-color: white !important; border: 1px solid #ccc !important; padding: 4px !important; border-radius: 4px !important; }
+
+        /* 关于我们 */
+        .about-section { background: white; padding: 30px 20px; text-align: center; border-bottom: 1px solid #eee; }
+        .about-inner { max-width: 800px; margin: 0 auto; }
+        .about-desc { font-size: 15px; line-height: 1.6; color: #555; margin-bottom: 20px; }
+        .badges { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
+        .badge { background: var(--primary); color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; display: flex; align-items: center; gap: 5px; box-shadow: 0 2px 5px rgba(0,30,80,0.2); }
+        .badge span { color: var(--secondary); font-size: 14px; } 
+
+        /* 搜索与列表 */
+        .toolbar { background: #e9ecef; padding: 20px; text-align: center; }
+        .search-container { max-width: 600px; margin: 0 auto; position: relative; }
+        .search-input { width: 100%; padding: 15px 20px; padding-right: 50px; border-radius: 30px; border: 1px solid #ddd; outline: none; font-size: 16px; box-sizing: border-box; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .search-input:focus { border-color: var(--primary); }
+        .search-icon { position: absolute; right: 20px; top: 15px; color: #999; }
+        
+        .filters { padding: 15px; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; background: #fff; border-bottom: 1px solid #eee; }
+        .filter-btn { background: #f8f9fa; border: 1px solid #ddd; color: #666; padding: 6px 16px; border-radius: 20px; cursor: pointer; font-size: 13px; transition: 0.2s; }
+        .filter-btn:hover, .filter-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+
+        .grid-info { max-width: 1400px; margin: 15px auto; padding: 0 20px; font-size: 13px; color: #888; display: flex; justify-content: space-between; }
+        .product-grid { max-width: 1400px; margin: 0 auto; padding: 0 20px; display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
+
+        .card { background: var(--card-bg); border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); transition: 0.2s; border: 1px solid #eee; display: flex; flex-direction: column; overflow: hidden; position: relative; }
+        .card:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); border-color: var(--primary); }
+        .card.selected { border: 2px solid var(--secondary); background: #fffbf5; }
+        .card.selected::after { content: "✓"; position: absolute; top: 0; right: 0; background: var(--secondary); color: white; padding: 2px 10px; border-bottom-left-radius: 8px; font-size: 14px; font-weight: bold; }
+
+        .card-body { padding: 15px; flex-grow: 1; }
+        .chem-icon-bg { position: absolute; top: 10px; right: 10px; opacity: 0.05; font-size: 60px; pointer-events: none; }
+        .cas-tag { font-family: Consolas, monospace; font-size: 12px; color: #666; background: #e9ecef; padding: 2px 6px; border-radius: 4px; display: inline-block; margin-bottom: 8px; }
+        .prod-name { font-size: 16px; font-weight: 700; color: var(--primary); margin-bottom: 6px; line-height: 1.4; }
+        .prod-cat { font-size: 11px; text-transform: uppercase; color: #999; letter-spacing: 0.5px; margin-bottom: 8px; }
+        .prod-desc { font-size: 13px; color: #555; line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+
+        .card-action { padding: 12px; border-top: 1px solid #f0f0f0; background: #fafafa; }
+        .btn-add { width: 100%; border: 1px solid #ccc; background: #fff; color: #555; padding: 8px; border-radius: 4px; cursor: pointer; font-size: 13px; transition: 0.2s; font-weight: 500; }
+        .btn-add:hover { background: #fff; border-color: var(--primary); color: var(--primary); }
+        .card.selected .btn-add { background: var(--secondary); border-color: var(--secondary); color: white; }
+
+        /* 悬浮区 */
+        .float-bar { position: fixed; bottom: 30px; right: 30px; display: flex; flex-direction: column; gap: 15px; z-index: 999; align-items: flex-end; }
+        .social-btn { width: 50px; height: 50px; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: white; text-decoration: none; box-shadow: 0 4px 12px rgba(0,0,0,0.15); transition: 0.3s; background: white; }
+        .btn-wa { background: #25D366; font-size: 24px; } 
+        .btn-wechat svg { width: 28px; height: 28px; fill: #07c160; }
+        .btn-top { background: #444; color: #fff; font-size: 20px; opacity: 0; pointer-events: none; transition: 0.3s; transform: translateY(10px); }
+        .btn-top.show { opacity: 0.8; pointer-events: all; transform: translateY(0); }
+        .social-btn:hover { transform: scale(1.1); }
+
+        .cart-bar { background: var(--primary); color: white; padding: 12px 25px; border-radius: 30px; box-shadow: 0 5px 20px rgba(0,51,102,0.4); cursor: pointer; display: flex; align-items: center; gap: 10px; transition: 0.3s; opacity: 0; pointer-events: none; transform: translateY(20px); }
+        .cart-bar.show { opacity: 1; pointer-events: all; transform: translateY(0); }
+        .cart-bar:hover { background: #002855; transform: translateY(-2px); }
+        .cart-count { background: var(--secondary); padding: 2px 8px; border-radius: 10px; font-size: 12px; font-weight: bold; }
+
+        /* Footer */
+        footer { background: #222; color: #bbb; padding: 50px 20px; font-size: 13px; margin-top: 60px; }
+        .footer-inner { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        .footer-col h3 { color: white; font-size: 16px; margin-bottom: 15px; border-left: 3px solid var(--secondary); padding-left: 10px; }
+        .footer-info p { margin: 8px 0; line-height: 1.5; }
+        .footer-info a { color: #bbb; text-decoration: none; border-bottom: 1px dotted #666; transition: 0.2s; }
+        .footer-info a:hover { color: var(--secondary); border-bottom-color: var(--secondary); }
+        .copyright { text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #333; color: #666; font-size: 12px; }
+
+        @media (max-width: 768px) {
+            .product-grid { grid-template-columns: 1fr; } 
+            .nav-inner { flex-direction: column; gap: 15px; align-items: flex-start; }
+            .lang-control-area { width: 100%; justify-content: space-between; }
+            .footer-inner { grid-template-columns: 1fr; }
+            .notice-bar { font-size: 12px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="notice-bar" id="noticeBar">
+    <span class="notice-icon">📢</span>
+    <span id="noticeText">Loading notice...</span>
+</div>
+
+<header>
+    <div class="nav-inner">
+        <div class="brand">
+            <div class="brand-logo">⬢</div> 
+            <div class="brand-text">
+                <h1 id="lbl-company">CJI Chemical</h1>
+                <h2 id="lbl-dept">Dept 10</h2>
+            </div>
+        </div>
+        
+        <div class="lang-control-area">
+            <button class="manual-lang-btn" onclick="toggleLocalLang()">🇨🇳 中文 / EN</button>
+            <div id="google_translate_element"></div>
+        </div>
+    </div>
+</header>
+
+<div class="about-section">
+    <div class="about-inner">
+        <div class="about-desc" id="aboutText">Loading info...</div>
+        <div class="badges">
+            <div class="badge"><span>✓</span> AEO Certified</div>
+            <div class="badge"><span>✓</span> ISO 37301</div>
+            <div class="badge"><span>✓</span> Global Supplier</div>
+        </div>
+    </div>
+</div>
+
+<div class="toolbar">
+    <div class="search-container">
+        <input type="text" class="search-input" id="searchInput" placeholder="Search...">
+        <span class="search-icon">🔍</span>
+    </div>
+</div>
+
+<div class="filters" id="filters"></div>
+
+<div class="grid-info">
+    <span id="resultCount">Loading...</span>
+    <span id="sortInfo">Sorted A-Z</span>
+</div>
+
+<div class="product-grid" id="grid"></div>
+
+<div class="float-bar">
+    <a href="#" class="social-btn btn-top" id="btnTop" title="Back to Top" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;">⬆</a>
+    
+    <a href="https://wa.me/8615295570878" target="_blank" class="social-btn btn-wa" title="WhatsApp">💬</a>
+    
+    <a href="#" class="social-btn btn-wechat" title="WeChat ID: cjichem" onclick="alert('WeChat ID: cjichem\nPlease add me manually.')">
+        <svg viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg"><path d="M14,0 C6.268,0 0,5.168 0,11.541 C0,15.141 2.379,18.358 6.035,20.352 C6.268,20.48 6.375,20.762 6.273,21.016 L5.453,23.336 C5.344,23.645 5.66,23.938 5.941,23.777 L9.395,21.801 C9.57,21.703 9.777,21.676 9.973,21.727 C11.266,22.051 12.613,22.223 14,22.223 C21.73,22.223 28,17.055 28,10.684 C28,4.313 21.73,0 14,0 Z M9.5,9 C8.672,9 8,8.328 8,7.5 C8,6.672 8.672,6 9.5,6 C10.328,6 11,6.672 11,7.5 C11,8.328 10.328,9 9.5,9 Z M18.5,9 C17.672,9 17,8.328 17,7.5 C17,6.672 17.672,6 18.5,6 C19.328,6 20,6.672 20,7.5 C20,8.328 19.328,9 18.5,9 Z"/></svg>
+    </a>
+    
+    <div class="cart-bar" id="cartBar" onclick="sendInquiry()">
+        <span id="cartText">🛒 Inquiry List</span>
+        <span class="cart-count" id="cartCount">0</span>
+    </div>
+</div>
+
+<footer>
+    <div class="footer-inner">
+        <div class="footer-col">
+            <h3 id="lbl-contact">Contact Us</h3>
+            <div class="footer-info">
+                <p><b>Tel:</b> +86-25-83273961</p>
+                <p><b>Mob:</b> +86-15295570878</p>
+                <p><b>Email:</b> <a href="mailto:sales@cji-chem.com">sales@cji-chem.com</a></p>
+                <p><b>Add:</b> 9F, No.199-1, Guoji Road, Qinhuai District, Nanjing, China</p>
+            </div>
+        </div>
+        <div class="footer-col">
+            <h3 id="lbl-cert">Certifications</h3>
+            <div class="footer-info">
+                <p>✅ AEO Advanced Certified Enterprise</p>
+                <p>✅ ISO 37301 Compliance Management</p>
+                <p>✅ ISO 9001 Quality Management</p>
+            </div>
+        </div>
+    </div>
+    <div class="copyright">© 2026 China Jiangsu International Chemical Co., Ltd - Dept 10</div>
+</footer>
+
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE, autoDisplay: false}, 'google_translate_element');
+}
+</script>
+<script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+<!-- 核心：引入两个外部JS文件 -->
+<script src="data.js"></script>
+<script src="config.js"></script>
+
+<script>
+    // --- 核心逻辑 ---
+    // 检查外部文件是否加载
+    if (typeof productData === 'undefined' || typeof ui === 'undefined') {
+        alert("Error: Missing config.js or data.js file.");
+    }
+
+    let db = productData;
+    let currentLang = 'en';
+    let cart = new Set();
+    const grid = document.getElementById('grid');
+    const searchInput = document.getElementById('searchInput');
+    const countDisplay = document.getElementById('resultCount');
+    const cartBar = document.getElementById('cartBar');
+    const cartCountSpan = document.getElementById('cartCount');
+    let currentFilter = 'All';
+
+    function toggleLocalLang() {
+        currentLang = currentLang === 'en' ? 'cn' : 'en';
+        updateUIText();
+        renderFilterButtons();
+        applyFilters(); 
+    }
+
+    // 从 config.js 读取文字并更新界面
+    function updateUIText() {
+        const t = ui[currentLang];
+        
+        document.getElementById('lbl-company').innerText = t.company;
+        document.getElementById('lbl-dept').innerText = t.dept;
+        document.querySelector('.manual-lang-btn').innerText = currentLang === 'en' ? '🇨🇳 中文 / EN' : '🇺🇸 EN / 中文';
+        document.getElementById('searchInput').placeholder = t.searchPlaceholder;
+        document.getElementById('cartText').innerText = t.cartText;
+        document.getElementById('sortInfo').innerText = t.sortInfo;
+        
+        // 更新关于我们、通知、底部
+        document.getElementById('aboutText').innerHTML = t.about;
+        document.getElementById('noticeText').innerText = t.notice;
+        document.getElementById('lbl-contact').innerText = t.contactTitle;
+        document.getElementById('lbl-cert').innerText = t.certTitle;
+
+        document.querySelectorAll('.btn-add').forEach(btn => {
+            const added = btn.parentElement.parentElement.classList.contains('selected');
+            btn.innerText = added ? t.addedBtn : t.addBtn;
+        });
+    }
+
+    function renderFilterButtons() {
+        const container = document.getElementById('filters');
+        container.innerHTML = '';
+        const cats = ui[currentLang].cats;
+        // 保持固定顺序
+        const keys = ["All", "Pharma", "Solvents", "Agro", "Fragrance", "Dyes", "Additives"];
+        keys.forEach(key => {
+            if(cats[key]) {
+                const btn = document.createElement('button');
+                btn.className = `filter-btn ${currentFilter === key ? 'active' : ''}`;
+                btn.innerText = cats[key];
+                btn.onclick = () => filterData(key, btn);
+                container.appendChild(btn);
+            }
+        });
+    }
+
+    function render(data) {
+        grid.innerHTML = "";
+        countDisplay.innerText = `${data.length} Products`;
+        const t = ui[currentLang];
+
+        data.forEach(item => {
+            const isSelected = cart.has(item.id);
+            const pInfo = item[currentLang] || item.en; 
+            const card = document.createElement('div');
+            card.className = `card ${isSelected ? 'selected' : ''}`;
+            card.onclick = (e) => toggleCart(item.id, card, e);
+
+            card.innerHTML = `
+                <div class="card-body">
+                    <div class="chem-icon-bg">⚗️</div>
+                    <span class="cas-tag">${item.cas}</span>
+                    <div class="prod-name">${pInfo.name}</div>
+                    <div class="prod-cat">${ui[currentLang].cats[item.cat] || item.cat}</div>
+                    <div class="prod-desc">${pInfo.app}</div>
+                </div>
+                <div class="card-action">
+                    <button class="btn-add">${isSelected ? t.addedBtn : t.addBtn}</button>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+    }
+
+    function applyFilters() {
+        const term = searchInput.value.toLowerCase();
+        const filtered = db.filter(item => {
+            if (currentFilter !== 'All' && item.cat !== currentFilter) return false;
+            const matchEn = item.en.name.toLowerCase().includes(term);
+            const matchCn = item.cn.name.toLowerCase().includes(term);
+            const matchCas = item.cas.includes(term);
+            return matchEn || matchCn || matchCas;
+        });
+        filtered.sort((a, b) => a.en.name.localeCompare(b.en.name));
+        render(filtered);
+    }
+
+    function toggleCart(id, cardEl, e) {
+        const t = ui[currentLang];
+        if(cart.has(id)) {
+            cart.delete(id);
+            cardEl.classList.remove('selected');
+            cardEl.querySelector('.btn-add').innerText = t.addBtn;
+        } else {
+            cart.add(id);
+            cardEl.classList.add('selected');
+            cardEl.querySelector('.btn-add').innerText = t.addedBtn;
+        }
+        updateCartUI();
+    }
+
+    function updateCartUI() {
+        cartCountSpan.innerText = cart.size;
+        cartBar.classList.toggle('show', cart.size > 0);
+    }
+
+    function sendInquiry() {
+        if(cart.size === 0) return;
+        const t = ui[currentLang];
+        const selectedProducts = db.filter(p => cart.has(p.id));
+        let body = t.inquiryBody;
+        selectedProducts.forEach((p, index) => {
+            const name = p.en.name; 
+            body += `${index + 1}. ${name} (CAS: ${p.cas})\n`;
+        });
+        body += "\n--------------------------\n";
+        window.location.href = `mailto:sales@cji-chem.com?subject=${encodeURIComponent(t.inquirySubject)}&body=${encodeURIComponent(body)}`;
+    }
+
+    window.filterData = function(key, btn) {
+        currentFilter = key;
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        applyFilters();
+    }
+
+    window.onscroll = function() {
+        const btnTop = document.getElementById("btnTop");
+        if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+            btnTop.classList.add("show");
+        } else {
+            btnTop.classList.remove("show");
+        }
+    };
+
+    searchInput.addEventListener('input', applyFilters);
+    
+    // 初始化
+    updateUIText();
+    renderFilterButtons();
+    render(db);
+</script>
+</body>
+</html>
