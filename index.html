@@ -39,12 +39,19 @@
         .goog-te-gadget-simple { background-color: white !important; border: 1px solid #ccc !important; padding: 4px !important; border-radius: 4px !important; }
 
         /* --- 核心展示区 (证书 + Slogan) --- */
-        .showcase-section {
-            background: white;
-            padding: 30px 20px;
-            text-align: center;
-            border-bottom: 1px solid #eee;
-        }
+        /* 修改后的代码 (带背景图 + 白色蒙层) */
+.showcase-section {
+    /* 核心魔法：这里加了一层 90% 不透明的白色遮罩，让背景图隐隐约约透出来 */
+    background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), url('office.png');
+    
+    /* 让图片铺满整个区域，并居中显示 */
+    background-size: cover;
+    background-position: center;
+    
+    padding: 50px 20px; /* 稍微增加一点高度，更大气 */
+    text-align: center;
+    border-bottom: 1px solid #eee;
+}
         .slogan {
             font-size: 18px;
             font-weight: 600;
