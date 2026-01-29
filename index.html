@@ -10,129 +10,157 @@
         :root {
             --primary: #003366; 
             --secondary: #f68b1f; 
-            --gold: #d4af37; /* 新增：尊贵金 */
-            --hot-red: #ff4d4f; /* 新增：热门红 */
-            --bg: #f4f6f9;
+            --gold: #d4af37;
+            --hot-red: #ff4d4f;
+            --bg: #f0f2f5; /* 稍微深一点的灰背景，突出白卡片 */
             --text: #333;
             --card-bg: #fff;
         }
         body { font-family: 'Segoe UI', 'Helvetica Neue', 'Microsoft YaHei', sans-serif; background: var(--bg); margin: 0; color: var(--text); padding-bottom: 100px; }
         
-        /* 通知栏 */
-        .notice-bar { background-color: #fff3cd; color: #856404; text-align: center; padding: 8px 20px; font-size: 13px; border-bottom: 1px solid #ffeeba; display: flex; justify-content: center; align-items: center; gap: 10px; }
+        /* 1. 通知栏 (保持黄色醒目) */
+        .notice-bar { background-color: #fff8e1; color: #856404; text-align: center; padding: 6px 20px; font-size: 12px; border-bottom: 1px solid #ffeeba; display: flex; justify-content: center; align-items: center; gap: 10px; }
 
-        /* 导航栏 */
-        header { background: #fff; border-bottom: 3px solid var(--primary); position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        /* 2. 导航栏 (大改：深蓝背景，白色文字) */
+        header { 
+            background: var(--primary); 
+            color: white; 
+            position: sticky; top: 0; z-index: 1000; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15); 
+        }
         .nav-inner { max-width: 1400px; margin: 0 auto; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; }
         .brand { display: flex; align-items: center; gap: 12px; }
-        .brand-logo { height: 45px; width: auto; } 
-        .brand-text h1 { font-size: 22px; margin: 0; color: var(--primary); font-weight: 800; letter-spacing: 0.5px; }
+        
+        /* Logo加了个白边或者滤镜，防止在深蓝底上看不清 */
+        .brand-logo { height: 40px; width: auto; background: white; padding: 2px; border-radius: 4px; } 
+        .brand-text h1 { font-size: 20px; margin: 0; color: white; font-weight: 700; letter-spacing: 0.5px; }
 
-        .lang-control-area { display: flex; align-items: center; gap: 15px; }
-        .manual-lang-btn { border: 1px solid var(--primary); color: var(--primary); background: white; padding: 5px 12px; border-radius: 4px; font-size: 12px; cursor: pointer; font-weight: bold; white-space: nowrap; }
+        .lang-control-area { display: flex; align-items: center; gap: 10px; }
+        
+        /* 语言按钮改成了透明白边风格 */
+        .manual-lang-btn { 
+            border: 1px solid rgba(255,255,255,0.5); 
+            color: white; 
+            background: rgba(255,255,255,0.1); 
+            padding: 4px 10px; border-radius: 4px; 
+            font-size: 12px; cursor: pointer; font-weight: bold; white-space: nowrap; 
+        }
+        .manual-lang-btn:hover { background: rgba(255,255,255,0.2); }
         
         /* 谷歌翻译 */
         #google_translate_element { min-width: 120px; display: block; }
         .goog-te-banner-frame { display: none !important; }
         body { top: 0px !important; } 
         .goog-tooltip { display: none !important; }
-        .goog-te-gadget-simple { background-color: white !important; border: 1px solid #ccc !important; padding: 4px !important; border-radius: 4px !important; }
+        .goog-te-gadget-simple { background-color: white !important; border: none !important; padding: 3px !important; border-radius: 4px !important; }
 
-        /* --- 核心展示区 (带背景图修复) --- */
+        /* 3. 核心展示区 (更立体) */
         .showcase-section {
-            /* 这里的 office.png 必须确保在GitHub仓库里存在 */
-            background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), url('office.png');
+            background: linear-gradient(rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.9)), url('office.png');
             background-size: cover;
             background-position: center;
-            padding: 50px 20px;
+            padding: 40px 20px;
             text-align: center;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid #ddd;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05); /* 增加阴影层次 */
         }
-        .slogan { font-size: 18px; font-weight: 600; color: var(--primary); margin-bottom: 25px; }
-        .cert-container { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
-        .cert-img { height: 180px; width: auto; border: 1px solid #eee; border-radius: 4px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: 0.3s; cursor: pointer; }
+        .slogan { font-size: 18px; font-weight: 700; color: var(--primary); margin-bottom: 20px; text-transform: uppercase; }
+        .cert-container { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
+        .cert-img { height: 150px; width: auto; border: 1px solid #fff; border-radius: 4px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: 0.3s; cursor: pointer; background: white; }
         .cert-img:hover { transform: scale(1.05); }
 
         /* 搜索与列表 */
-        .toolbar { background: #e9ecef; padding: 20px; text-align: center; }
+        .toolbar { background: #e9ecef; padding: 15px 20px; text-align: center; }
         .search-container { max-width: 600px; margin: 0 auto; position: relative; }
-        .search-input { width: 100%; padding: 15px 20px; padding-right: 50px; border-radius: 30px; border: 1px solid #ddd; outline: none; font-size: 16px; box-sizing: border-box; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .search-input:focus { border-color: var(--primary); }
-        .search-icon { position: absolute; right: 20px; top: 15px; color: #999; }
+        .search-input { width: 100%; padding: 12px 20px; padding-right: 50px; border-radius: 30px; border: 1px solid #ccc; outline: none; font-size: 15px; box-sizing: border-box; box-shadow: inset 0 2px 5px rgba(0,0,0,0.05); }
+        .search-input:focus { border-color: var(--primary); background: white; }
+        .search-icon { position: absolute; right: 15px; top: 12px; color: #888; }
         
-        .filters { padding: 15px; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; background: #fff; border-bottom: 1px solid #eee; }
-        .filter-btn { background: #f8f9fa; border: 1px solid #ddd; color: #666; padding: 6px 16px; border-radius: 20px; cursor: pointer; font-size: 13px; transition: 0.2s; }
+        .filters { padding: 10px 15px; display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; background: #fff; border-bottom: 1px solid #eee; }
+        .filter-btn { background: #f8f9fa; border: 1px solid #eee; color: #555; padding: 5px 12px; border-radius: 15px; cursor: pointer; font-size: 12px; transition: 0.2s; }
         .filter-btn:hover, .filter-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
 
-        .grid-info { max-width: 1400px; margin: 15px auto; padding: 0 20px; font-size: 13px; color: #888; display: flex; justify-content: space-between; }
-        .product-grid { max-width: 1400px; margin: 0 auto; padding: 0 20px; display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
-
-        /* --- 卡片设计 (包含热门特效) --- */
-        .card { background: var(--card-bg); border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); transition: 0.2s; border: 1px solid #eee; display: flex; flex-direction: column; overflow: hidden; position: relative; }
-        .card:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); border-color: var(--primary); }
+        .grid-info { max-width: 1400px; margin: 15px auto; padding: 0 15px; font-size: 12px; color: #888; display: flex; justify-content: space-between; }
         
-        /* 选中状态 */
+        /* 4. 产品网格 (电脑端保持不变) */
+        .product-grid { max-width: 1400px; margin: 0 auto; padding: 0 15px; display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 15px; }
+
+        /* 卡片设计 (增加阴影，更立体) */
+        .card { background: var(--card-bg); border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); transition: 0.2s; border: none; display: flex; flex-direction: column; overflow: hidden; position: relative; }
+        .card:hover { transform: translateY(-3px); box-shadow: 0 8px 16px rgba(0,51,102,0.15); }
+        
         .card.selected { border: 2px solid var(--secondary) !important; background: #fffbf5; }
-        .card.selected::after { content: "✓"; position: absolute; top: 0; right: 0; background: var(--secondary); color: white; padding: 2px 10px; border-bottom-left-radius: 8px; font-size: 14px; font-weight: bold; z-index: 2; }
+        .card.selected::after { content: "✓"; position: absolute; top: 0; right: 0; background: var(--secondary); color: white; padding: 2px 8px; border-bottom-left-radius: 6px; font-size: 12px; font-weight: bold; z-index: 2; }
 
-        /* 热门推荐特效 */
-        .card.featured { border: 1px solid var(--gold); background: #fffdf5; }
-        .card.featured:hover { border-color: var(--gold); box-shadow: 0 10px 20px rgba(212, 175, 55, 0.2); }
+        .card.featured { border-top: 3px solid var(--gold) !important; }
+        .hot-ribbon { position: absolute; top: 0; right: 0; background: var(--hot-red); color: white; font-size: 10px; font-weight: bold; padding: 2px 6px; border-bottom-left-radius: 6px; z-index: 1; }
+
+        .card-body { padding: 12px; flex-grow: 1; }
+        .chem-icon-bg { position: absolute; bottom: 5px; right: 5px; opacity: 0.03; font-size: 50px; pointer-events: none; color: #000; }
         
-        /* 热门飘带 */
-        .hot-ribbon {
-            position: absolute; top: 0; right: 0;
-            background: var(--hot-red); color: white;
-            font-size: 10px; font-weight: bold;
-            padding: 3px 8px;
-            border-bottom-left-radius: 8px;
-            z-index: 1;
-        }
+        .cas-tag { font-family: Consolas, monospace; font-size: 11px; color: #666; background: #f1f3f5; padding: 1px 5px; border-radius: 3px; display: inline-block; margin-bottom: 5px; }
+        .prod-name { font-size: 15px; font-weight: 700; color: var(--primary); margin-bottom: 4px; line-height: 1.3; }
+        .prod-cat { font-size: 10px; text-transform: uppercase; color: #999; letter-spacing: 0.5px; margin-bottom: 6px; }
+        .prod-desc { font-size: 12px; color: #555; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; height: 34px; }
 
-        .card-body { padding: 15px; flex-grow: 1; }
-        .chem-icon-bg { position: absolute; top: 10px; right: 10px; opacity: 0.05; font-size: 60px; pointer-events: none; }
-        .cas-tag { font-family: Consolas, monospace; font-size: 12px; color: #666; background: #e9ecef; padding: 2px 6px; border-radius: 4px; display: inline-block; margin-bottom: 8px; }
-        .prod-name { font-size: 16px; font-weight: 700; color: var(--primary); margin-bottom: 6px; line-height: 1.4; }
-        .prod-cat { font-size: 11px; text-transform: uppercase; color: #999; letter-spacing: 0.5px; margin-bottom: 8px; }
-        .prod-desc { font-size: 13px; color: #555; line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-
-        /* 规格标签 */
-        .specs-row { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
-        .spec-badge { font-size: 11px; color: #333; background: #f0f7ff; padding: 3px 8px; border-radius: 4px; border: 1px solid #cce5ff; display: flex; align-items: center; gap: 4px; }
+        .specs-row { display: flex; gap: 4px; margin-top: 8px; flex-wrap: wrap; }
+        .spec-badge { font-size: 10px; color: #444; background: #eef6fc; padding: 2px 6px; border-radius: 3px; border: 1px solid #daecf9; display: flex; align-items: center; gap: 3px; max-width: 100%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
         .spec-badge b { color: var(--primary); }
 
-        .card-action { padding: 12px; border-top: 1px solid #f0f0f0; background: #fafafa; }
-        .btn-add { width: 100%; border: 1px solid #ccc; background: #fff; color: #555; padding: 8px; border-radius: 4px; cursor: pointer; font-size: 13px; transition: 0.2s; font-weight: 500; }
-        .btn-add:hover { background: #fff; border-color: var(--primary); color: var(--primary); }
+        .card-action { padding: 10px; border-top: 1px solid #f8f9fa; background: #fff; }
+        .btn-add { width: 100%; border: 1px solid #ddd; background: #fff; color: #666; padding: 6px; border-radius: 4px; cursor: pointer; font-size: 12px; transition: 0.2s; font-weight: 600; }
+        .btn-add:hover { background: var(--primary); border-color: var(--primary); color: white; }
         .card.selected .btn-add { background: var(--secondary); border-color: var(--secondary); color: white; }
 
         /* 悬浮区 */
-        .float-bar { position: fixed; bottom: 30px; right: 30px; display: flex; flex-direction: column; gap: 15px; z-index: 999; align-items: flex-end; }
-        .social-btn { width: 50px; height: 50px; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: white; text-decoration: none; box-shadow: 0 4px 12px rgba(0,0,0,0.15); transition: 0.3s; background: white; }
-        .btn-wa { background: #25D366; font-size: 24px; } 
-        .btn-wechat svg { width: 28px; height: 28px; fill: #07c160; }
-        .btn-top { background: #444; color: #fff; font-size: 20px; opacity: 0; pointer-events: none; transition: 0.3s; transform: translateY(10px); }
+        .float-bar { position: fixed; bottom: 30px; right: 20px; display: flex; flex-direction: column; gap: 12px; z-index: 999; align-items: flex-end; }
+        .social-btn { width: 45px; height: 45px; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: white; text-decoration: none; box-shadow: 0 4px 10px rgba(0,0,0,0.2); transition: 0.3s; background: white; }
+        .btn-wa { background: #25D366; font-size: 22px; } 
+        .btn-wechat svg { width: 24px; height: 24px; fill: #07c160; }
+        .btn-top { background: #333; color: #fff; font-size: 18px; opacity: 0; pointer-events: none; transition: 0.3s; transform: translateY(10px); }
         .btn-top.show { opacity: 0.8; pointer-events: all; transform: translateY(0); }
         .social-btn:hover { transform: scale(1.1); }
 
-        .cart-bar { background: var(--primary); color: white; padding: 12px 25px; border-radius: 30px; box-shadow: 0 5px 20px rgba(0,51,102,0.4); cursor: pointer; display: flex; align-items: center; gap: 10px; transition: 0.3s; opacity: 0; pointer-events: none; transform: translateY(20px); }
+        .cart-bar { background: var(--primary); color: white; padding: 10px 20px; border-radius: 30px; box-shadow: 0 5px 15px rgba(0,51,102,0.4); cursor: pointer; display: flex; align-items: center; gap: 8px; transition: 0.3s; opacity: 0; pointer-events: none; transform: translateY(20px); font-size: 14px; }
         .cart-bar.show { opacity: 1; pointer-events: all; transform: translateY(0); }
-        .cart-bar:hover { background: #002855; transform: translateY(-2px); }
-        .cart-count { background: var(--secondary); padding: 2px 8px; border-radius: 10px; font-size: 12px; font-weight: bold; }
+        .cart-bar:hover { background: #002244; transform: translateY(-2px); }
+        .cart-count { background: var(--secondary); padding: 2px 6px; border-radius: 10px; font-size: 11px; font-weight: bold; }
 
         /* Footer */
-        footer { background: #222; color: #bbb; padding: 50px 20px; font-size: 13px; margin-top: 60px; }
+        footer { background: #1a1a1a; color: #999; padding: 40px 20px; font-size: 12px; margin-top: 40px; }
         .footer-inner { max-width: 1000px; margin: 0 auto; text-align: center; } 
-        .footer-info { margin-bottom: 20px; line-height: 1.8; font-size: 14px; }
-        .footer-info a { color: #bbb; text-decoration: none; border-bottom: 1px dotted #666; transition: 0.2s; }
+        .footer-info { margin-bottom: 20px; line-height: 1.8; }
+        .footer-info a { color: #ccc; text-decoration: none; border-bottom: 1px dotted #666; transition: 0.2s; }
         .footer-info a:hover { color: var(--secondary); border-bottom-color: var(--secondary); }
-        .copyright { padding-top: 20px; border-top: 1px solid #333; color: #666; font-size: 12px; }
+        .copyright { padding-top: 20px; border-top: 1px solid #333; color: #555; }
 
+        /* --- 5. 手机端大改版 (双列布局) --- */
         @media (max-width: 768px) {
-            .product-grid { grid-template-columns: 1fr; } 
-            .nav-inner { flex-direction: column; gap: 15px; align-items: flex-start; }
-            .lang-control-area { width: 100%; justify-content: space-between; }
-            .cert-img { height: 120px; } 
+            /* 强制变成 2 列 */
+            .product-grid { 
+                grid-template-columns: 1fr 1fr; /* 1:1 等分 */
+                gap: 10px; /* 间距缩小 */
+                padding: 0 10px;
+            }
+            
+            /* 手机端卡片内容压缩 */
+            .card-body { padding: 10px; }
+            .prod-name { font-size: 13px; margin-bottom: 2px; height: 34px; overflow: hidden; } /* 限制标题高度 */
+            .prod-desc { display: none; } /* 手机端隐藏那一长串描述，只留标题和标签，太挤了不好看 */
+            .cas-tag { font-size: 10px; padding: 1px 4px; margin-bottom: 4px; }
+            .specs-row { gap: 3px; margin-top: 5px; }
+            .spec-badge { font-size: 9px; padding: 2px 4px; }
+            
+            /* 手机端按钮调整 */
+            .card-action { padding: 8px; }
+            .btn-add { font-size: 11px; padding: 4px; }
+
+            /* 头部调整 */
+            .nav-inner { flex-direction: column; gap: 10px; align-items: center; padding: 10px; }
+            .brand { justify-content: center; }
+            .lang-control-area { width: 100%; justify-content: center; }
+            .cert-img { height: 100px; } 
+            .slogan { font-size: 15px; padding: 0 10px; }
         }
     </style>
 </head>
@@ -232,8 +260,7 @@ function googleTranslateElementInit() {
     const cartCountSpan = document.getElementById('cartCount');
     let currentFilter = 'All';
 
-    // --- ⭐ 关键修改：热门产品 ID 列表 ---
-    // 这里填入你想要置顶的 ID，顺序就是显示的顺序
+    // 热门产品 ID
     const featuredIDs = [1, 7, 175, 9, 10, 2, 8, 106, 65]; 
 
     function toggleLocalLang() {
@@ -284,17 +311,13 @@ function googleTranslateElementInit() {
 
         data.forEach(item => {
             const isSelected = cart.has(item.id);
-            // 检查是否是热门产品
             const isFeatured = featuredIDs.includes(item.id);
-            
             const pInfo = item[currentLang] || item.en; 
             const card = document.createElement('div');
             
-            // 如果是热门，加上 featured 类
             card.className = `card ${isSelected ? 'selected' : ''} ${isFeatured ? 'featured' : ''}`;
             card.onclick = (e) => toggleCart(item.id, card, e);
 
-            // 热门飘带 HTML
             const ribbonHTML = isFeatured ? `<div class="hot-ribbon">🔥 HOT</div>` : '';
 
             card.innerHTML = `
@@ -308,8 +331,8 @@ function googleTranslateElementInit() {
                     
                     ${(pInfo.spec || pInfo.pack) ? `
                         <div class="specs-row">
-                            ${pInfo.spec ? `<div class="spec-badge">🧪 <b>Spec:</b> ${pInfo.spec}</div>` : ''}
-                            ${pInfo.pack ? `<div class="spec-badge">📦 <b>Pack:</b> ${pInfo.pack}</div>` : ''}
+                            ${pInfo.spec ? `<div class="spec-badge">🧪 ${pInfo.spec}</div>` : ''}
+                            ${pInfo.pack ? `<div class="spec-badge">📦 ${pInfo.pack}</div>` : ''}
                         </div>
                     ` : ''}
                 </div>
@@ -331,22 +354,12 @@ function googleTranslateElementInit() {
             return matchEn || matchCn || matchCas;
         });
 
-        // --- 核心排序逻辑 ---
-        // 1. 把热门产品 ID 提到最前面
-        // 2. 剩下的按 A-Z 排序
         filtered.sort((a, b) => {
             const isAF = featuredIDs.includes(a.id);
             const isBF = featuredIDs.includes(b.id);
-            
-            if (isAF && !isBF) return -1; // a 是热门，排前面
-            if (!isAF && isBF) return 1;  // b 是热门，排前面
-            
-            // 如果都是热门，按 featuredIDs 里的顺序排
-            if (isAF && isBF) {
-                return featuredIDs.indexOf(a.id) - featuredIDs.indexOf(b.id);
-            }
-            
-            // 如果都不是热门，按字母排
+            if (isAF && !isBF) return -1; 
+            if (!isAF && isBF) return 1;  
+            if (isAF && isBF) return featuredIDs.indexOf(a.id) - featuredIDs.indexOf(b.id);
             return a.en.name.localeCompare(b.en.name);
         });
 
@@ -405,7 +418,6 @@ function googleTranslateElementInit() {
     searchInput.addEventListener('input', applyFilters);
     updateUIText();
     renderFilterButtons();
-    // 初始渲染时也执行一次筛选，确保排序生效
     applyFilters();
 </script>
 </body>
