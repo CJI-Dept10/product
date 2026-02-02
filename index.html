@@ -16,39 +16,39 @@
     <meta property="og:image" content="https://cji-dept10.github.io/cover.jpg">
     
     <style>
-        /* 1. 基础卡片样式优化 */
-.product-card {
-    background: #ffffff;
-    border-radius: 12px;           /* 圆角：更现代 */
-    padding: 20px;
-    margin-bottom: 20px;
-    border: 1px solid #eee;
-    transition: all 0.3s ease;    /* 增加平滑动画 */
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05); /* 轻微阴影 */
+        /* --- 优化后的卡片与高亮样式 --- */
+.card { 
+    background: var(--card-bg); 
+    border-radius: 12px;           /* 更圆润 */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05); 
+    transition: all 0.3s ease; 
+    border: 1px solid #eee; 
+    display: flex; 
+    flex-direction: column; 
+    overflow: hidden; 
+    position: relative; 
 }
 
-/* 2. 悬浮效果：让卡片“浮起来” */
-.product-card:hover {
-    transform: translateY(-5px);  /* 向上微调 */
-    box-shadow: 0 12px 24px rgba(0,0,0,0.12); /* 增强阴影 */
-    border-color: #007bff;        /* 悬浮时边框变色 */
+.card:hover { 
+    transform: translateY(-5px); 
+    box-shadow: 0 12px 24px rgba(0,51,102,0.15); 
+    border-color: var(--primary); 
 }
 
-/* 3. 突出 CAS 号 */
-.cas-number {
-    display: inline-block;
+.cas-tag { 
+    font-family: 'Courier New', monospace; 
+    font-size: 11px; 
     background: #e7f3ff;          /* 浅蓝色背景 */
     color: #0056b3;               /* 深蓝色文字 */
-    padding: 2px 8px;
-    border-radius: 4px;
+    padding: 2px 8px; 
+    border-radius: 4px; 
+    display: inline-block; 
+    margin-bottom: 5px; 
     font-weight: bold;
-    font-family: 'Courier New', Courier, monospace; /* 更加专业的字体 */
-    font-size: 0.9em;
 }
 
-/* 4. 搜索高亮文字样式 */
 .highlight {
-    background-color: #ffeb3b;    /* 明亮的黄色高亮 */
+    background-color: #ffeb3b;    /* 搜索高亮色 */
     padding: 0 2px;
     border-radius: 2px;
     color: #000;
@@ -282,6 +282,12 @@ function googleTranslateElementInit() {
         alert("System Error: Data loading failed. Please check data.js and config.js.");
     }
 
+    // 高亮辅助函数
+function highlightText(text, query) {
+    if (!query || query.trim() === "") return text;
+    const regex = new RegExp(`(${query})`, 'gi');
+    return text.toString().replace(regex, '<span class="highlight">$1</span>');
+}
     let db = productData;
     let currentLang = 'en';
     let cart = new Set();
@@ -350,10 +356,55 @@ function googleTranslateElementInit() {
         event.stopPropagation();
     }
 
-    function render(data) {
-        grid.innerHTML = "";
-        countDisplay.innerText = `${data.length} Products`;
-        const t = ui[currentLang];
+    function render(data, query = "") {
+    grid.innerHTML = "";
+    countDisplay.innerText = `${data.length} Products`;
+    const t = ui[currentLang];
+
+    data.forEach(item => {
+        const isSelected = cart.has(item.id);
+        const isFeatured = featuredIDs.includes(item.id);
+        const pInfo = item[currentLang] || item.en; 
+        
+        // --- 应用搜索高亮 ---
+        const displayName = highlightText(pInfo.name, query);
+        const displayCAS = highlightText(item.cas, query);
+        // ------------------
+
+        const card = document.createElement('div');
+        card.className = `card ${isSelected ? 'selected' : ''} ${isFeatured ? 'featured' : ''}`;
+        card.onclick = (e) => toggleCart(item.id, card, e);
+
+        const ribbonHTML = isFeatured ? `<div class="hot-ribbon">🔥 HOT</div>` : '';
+
+        card.innerHTML = `
+            ${ribbonHTML}
+            <div class="card-body">
+                <div class="chem-icon-bg">⚗️</div>
+                <span class="cas-tag">${displayCAS}</span>
+                <div class="prod-name">${displayName}</div>
+                <div class="prod-cat">${ui[currentLang].cats[item.cat] || item.cat}</div>
+                <div class="prod-desc">${pInfo.app}</div>
+                
+                <div class="specs-row">
+                    ${(pInfo.spec || pInfo.pack) ? `
+                        ${pInfo.spec ? `<div class="spec-badge">🧪 ${pInfo.spec}</div>` : ''}
+                        ${pInfo.pack ? `<div class="spec-badge">📦 ${pInfo.pack}</div>` : ''}
+                    ` : `
+                        <div class="spec-badge" style="background:#fff; border:1px dashed #ccc; color:#999; font-style:italic;">
+                            📩 Contact for COA / TDS
+                        </div>
+                    `}
+                </div>
+            </div>
+            <div class="card-action">
+                <button class="btn-copy" onclick="copyCardInfo(${item.id}, this)" title="Copy info">📋</button>
+                <button class="btn-add">${isSelected ? t.addedBtn : t.addBtn}</button>
+            </div>
+        `;
+        grid.appendChild(card);
+    });
+}
 
         data.forEach(item => {
             const isSelected = cart.has(item.id);
