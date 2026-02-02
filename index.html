@@ -3,188 +3,266 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CJI Chemical - Global Product Catalog</title>
+    <title>CJI Chemical | Global Supply Chain Partner</title>
     <link rel="icon" href="logo2.png" type="image/png">
 
-    <!-- 社交媒体分享设置 -->
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="CJI Chemical | Global Fine Chemical Supplier">
-    <meta property="og:description" content="AEO & ISO Certified. 30+ Years Experience.">
-    <meta property="og:image" content="https://cji-chemicals.github.io/product/cover.jpg">
-    
     <style>
-        /* --- 1. 核心变量与基础样式 --- */
+        /* --- 1. 全球高端化配色方案 --- */
         :root {
-            --primary: #003366;      /* 专业深蓝 */
-            --secondary: #f68b1f;    /* 醒目橙色 */
-            --hot-red: #ff4d4f;
-            --bg: #f5f7fa;
-            --text: #333;
+            --primary: #002244;      /* 深海蓝：稳重、实力 */
+            --accent: #d4af37;       /* 奢华金：专业、荣誉 */
+            --secondary: #f68b1f;    /* 活力橙：服务、效率 */
+            --text-main: #2c3e50;
+            --glass: rgba(255, 255, 255, 0.85);
         }
 
-        body { 
-            font-family: 'Segoe UI', Arial, sans-serif; 
-            background: var(--bg); margin: 0; color: var(--text); padding-bottom: 0;
-            animation: fadeIn 0.6s ease-in-out;
+        * { box-sizing: border-box; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        body { font-family: 'Inter', 'Segoe UI', system-ui, sans-serif; margin: 0; background: #f0f2f5; color: var(--text-main); line-height: 1.6; overflow-x: hidden; }
+
+        /* --- 2. 沉浸式顶部导航 --- */
+        header { 
+            position: fixed; top: 0; width: 100%; z-index: 1000; 
+            background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(0, 34, 68, 0.1);
         }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        /* --- 2. 顶部导航 --- */
-        .notice-bar { background: #fff8e1; color: #856404; text-align: center; padding: 8px; font-size: 13px; border-bottom: 1px solid #ffeeba; }
-        header { background: var(--primary); color: white; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
-        .nav-inner { max-width: 1400px; margin: 0 auto; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; }
-        .brand { display: flex; align-items: center; gap: 10px; }
-        .brand-logo { height: 35px; background: #fff; padding: 3px; border-radius: 4px; }
-        .brand-text h1 { font-size: 18px; margin: 0; }
-
-        /* --- 3. 背景展示区 (补回来的 office.png 和 证书) --- */
-        .showcase-section {
-            /* 背景图：office.png */
-            background: linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85)), url('office.png');
-            background-size: cover; 
-            background-position: center;
-            padding: 60px 20px; 
-            text-align: center; 
-            border-bottom: 1px solid #ddd;
+        .nav-inner { 
+            max-width: 1400px; margin: 0 auto; padding: 15px 30px; 
+            display: flex; justify-content: space-between; align-items: center; 
         }
-        .slogan { font-size: 26px; font-weight: 800; color: var(--primary); margin-bottom: 30px; text-transform: uppercase; letter-spacing: 1px; }
-        .cert-container { display: flex; justify-content: center; gap: 25px; flex-wrap: wrap; }
-        .cert-img { height: 180px; width: auto; border: 5px solid #fff; border-radius: 4px; box-shadow: 0 10px 20px rgba(0,0,0,0.15); transition: 0.3s; cursor: pointer; background: white; }
-        .cert-img:hover { transform: scale(1.05) translateY(-5px); }
+        .logo-area { display: flex; align-items: center; gap: 15px; text-decoration: none; }
+        .logo-area img { height: 45px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)); }
+        .logo-area h1 { font-size: 22px; color: var(--primary); margin: 0; font-weight: 800; letter-spacing: -1px; }
 
-        /* --- 4. 搜索与筛选 --- */
-        .toolbar { background: #fff; padding: 25px 20px; border-bottom: 1px solid #eee; text-align: center; }
-        .search-container { max-width: 600px; margin: 0 auto; position: relative; }
-        .search-input { width: 100%; padding: 15px 25px; border-radius: 40px; border: 2px solid #ddd; outline: none; font-size: 16px; transition: 0.3s; }
-        .search-input:focus { border-color: var(--primary); box-shadow: 0 0 15px rgba(0,51,102,0.1); }
+        nav { display: flex; gap: 35px; }
+        nav a { 
+            text-decoration: none; color: var(--primary); font-weight: 600; 
+            font-size: 14px; position: relative; cursor: pointer; opacity: 0.7;
+        }
+        nav a:hover, nav a.active { opacity: 1; }
+        nav a::after { 
+            content: ''; position: absolute; bottom: -5px; left: 0; width: 0; 
+            height: 2px; background: var(--accent); transition: 0.3s;
+        }
+        nav a:hover::after, nav a.active::after { width: 100%; }
+
+        /* --- 3. 页面板块控制 --- */
+        .page-section { display: none; padding-top: 100px; min-height: 100vh; animation: sectionIn 0.8s ease; }
+        .page-section.active { display: block; }
+        @keyframes sectionIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- 4. 首页 (HOME) 电影感设计 --- */
+        #sec-home { padding-top: 0; position: relative; }
+        .hero { 
+            height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
+            background: linear-gradient(rgba(0,34,68,0.7), rgba(0,34,68,0.5)), url('office.png');
+            background-size: cover; background-position: center; color: white; text-align: center;
+        }
+        .hero h2 { font-size: 64px; margin: 0; font-weight: 900; letter-spacing: 2px; text-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .hero p { font-size: 24px; opacity: 0.9; margin: 20px 0 40px; font-weight: 300; }
         
-        .filters { padding: 15px; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; background: #fff; }
-        .filter-btn { background: #f0f2f5; border: 1px solid #ddd; padding: 8px 18px; border-radius: 20px; cursor: pointer; font-size: 14px; transition: 0.2s; }
-        .filter-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+        .stat-grid { 
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; max-width: 1000px; margin-top: 50px;
+        }
+        .stat-card { 
+            background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); 
+            padding: 30px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.2);
+        }
+        .stat-card h3 { font-size: 40px; margin: 0; color: var(--accent); }
+        .stat-card p { font-size: 16px; margin: 10px 0 0; opacity: 0.8; }
 
-        /* --- 5. 产品卡片与高亮 --- */
-        .highlight { background-color: #ffeb3b; color: #000; padding: 0 2px; border-radius: 2px; font-weight: bold; }
-        .product-grid { max-width: 1400px; margin: 20px auto; padding: 0 15px; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
-        .card { background: #fff; border-radius: 12px; border: 1px solid #e0e0e0; transition: all 0.3s ease; display: flex; flex-direction: column; overflow: hidden; position: relative; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .card:hover { transform: translateY(-8px); box-shadow: 0 15px 30px rgba(0,51,102,0.15); border-color: var(--primary); }
-        .card.selected { border: 2px solid var(--secondary); background: #fffbf5; }
+        /* --- 5. 产品中心 (PRODUCTS) 极简强大 --- */
+        .search-bar-wrap { 
+            position: sticky; top: 76px; z-index: 100; background: var(--bg); padding: 20px 0;
+            text-align: center; border-bottom: 1px solid #ddd;
+        }
+        .luxury-input { 
+            width: 600px; padding: 18px 35px; border-radius: 50px; border: none;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08); font-size: 18px; outline: none;
+        }
+        .product-grid { 
+            max-width: 1400px; margin: 40px auto; display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; padding: 0 20px;
+        }
+        .card { 
+            background: white; border-radius: 20px; padding: 25px; border: 1px solid #eee;
+            position: relative; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+        }
+        .card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,34,68,0.12); border-color: var(--accent); }
+        .cas-tag { font-family: 'Courier New', monospace; background: #f0f7ff; color: var(--primary); padding: 4px 12px; border-radius: 6px; font-weight: 700; font-size: 12px; }
+        .prod-name { font-size: 19px; margin: 15px 0 10px; color: var(--primary); font-weight: 800; }
+        .highlight { background: #ffeb3b; padding: 0 2px; border-radius: 3px; }
 
-        .card-body { padding: 20px; flex-grow: 1; cursor: pointer; }
-        .cas-tag { font-family: 'Courier New', monospace; font-size: 12px; background: #e7f3ff; color: #0056b3; padding: 3px 10px; border-radius: 4px; display: inline-block; margin-bottom: 10px; font-weight: bold; }
-        .prod-name { font-size: 18px; font-weight: 700; color: var(--primary); margin-bottom: 8px; }
-        .prod-desc { font-size: 14px; color: #666; line-height: 1.5; height: 42px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+        /* --- 6. 关于 & 荣誉 (ABOUT) 品牌背书 --- */
+        .luxury-content { max-width: 1200px; margin: 0 auto; padding: 60px 20px; }
+        .section-title { font-size: 42px; color: var(--primary); margin-bottom: 50px; text-align: center; }
+        .section-title span { color: var(--accent); }
 
-        .card-action { padding: 15px; border-top: 1px solid #f0f0f0; display: flex; gap: 10px; background: #fafafa; }
-        .btn-add { flex: 1; border: 1.5px solid var(--primary); background: #fff; color: var(--primary); padding: 8px; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: bold; }
-        .btn-add:hover { background: var(--primary); color: #fff; }
-        .card.selected .btn-add { background: var(--secondary); border-color: var(--secondary); color: #fff; }
-        .btn-copy { width: 40px; border: 1px solid #ddd; background: #fff; border-radius: 6px; cursor: pointer; font-size: 18px; }
+        .about-flex { display: flex; gap: 60px; align-items: center; margin-bottom: 100px; }
+        .about-text { flex: 1; font-size: 18px; color: #555; }
+        .about-img { flex: 1; border-radius: 30px; box-shadow: 0 30px 60px rgba(0,0,0,0.2); }
 
-        .hot-ribbon { position: absolute; top: 0; right: 0; background: var(--hot-red); color: white; font-size: 11px; font-weight: bold; padding: 5px 10px; border-bottom-left-radius: 10px; z-index: 1; }
+        .cert-grid { 
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 30px; 
+        }
+        .cert-card { 
+            background: white; padding: 15px; border-radius: 15px; text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05); cursor: pointer;
+        }
+        .cert-card img { width: 100%; border-radius: 10px; margin-bottom: 15px; border: 1px solid #eee; }
+        .cert-card p { font-weight: bold; font-size: 14px; margin: 0; color: var(--primary); }
 
-        /* --- 6. 强力版页脚 (字号大，对比度高) --- */
+        /* --- 7. 超级页脚 (FOOTER) --- */
         footer { 
-            background: #111 !important; color: #fff !important; 
-            padding: 70px 20px !important; margin-top: 60px !important;
-            border-top: 6px solid var(--secondary) !important;
+            background: #0a0e12; color: white; padding: 80px 20px; margin-top: 100px; 
+            border-top: 5px solid var(--accent);
         }
-        .footer-inner { max-width: 1100px; margin: 0 auto; text-align: center; }
-        footer h3 { font-size: 36px !important; margin-bottom: 35px !important; color: #fff !important; letter-spacing: 2px; }
-        footer p { font-size: 19px !important; margin: 18px 0 !important; color: #ccc !important; }
-        footer b { color: var(--secondary) !important; font-size: 22px !important; margin-right: 10px !important; }
-        footer a { color: #ffeb3b !important; text-decoration: underline !important; font-weight: bold !important; font-size: 20px !important; }
-        .copyright { margin-top: 50px; padding-top: 25px; border-top: 1px solid #333; color: #666; font-size: 15px; }
+        .footer-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr; gap: 80px; }
+        .footer-logo h2 { font-size: 32px; color: var(--accent); margin-bottom: 20px; }
+        .contact-info p { font-size: 20px; margin: 15px 0; color: #ccc; }
+        .contact-info b { color: var(--accent); margin-right: 10px; }
+        .contact-info a { color: #fff; text-decoration: underline; }
 
-        /* --- 7. 悬浮按钮 --- */
-        .float-bar { position: fixed; bottom: 30px; right: 20px; display: flex; flex-direction: column; gap: 15px; z-index: 999; }
-        .social-btn { width: 55px; height: 55px; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: white; text-decoration: none; box-shadow: 0 6px 15px rgba(0,0,0,0.3); transition: 0.3s; }
-        .btn-wa { background: #25D366; font-size: 28px; }
-        .btn-top { background: #333; opacity: 0; pointer-events: none; }
-        .btn-top.show { opacity: 0.9; pointer-events: all; }
-        .cart-bar { background: var(--primary); color: white; padding: 15px 30px; border-radius: 40px; cursor: pointer; display: flex; align-items: center; gap: 12px; opacity: 0; pointer-events: none; transition: 0.3s; box-shadow: 0 8px 20px rgba(0,0,0,0.4); }
-        .cart-bar.show { opacity: 1; pointer-events: all; }
-        
+        /* --- 浮动询盘栏 --- */
+        .cart-bar { 
+            position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%);
+            background: var(--primary); color: white; padding: 15px 40px; border-radius: 50px;
+            display: flex; gap: 20px; align-items: center; box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            z-index: 2000; cursor: pointer; display: none;
+        }
+        .cart-bar.show { display: flex; animation: slideUp 0.5s; }
+        @keyframes slideUp { from { bottom: -100px; } to { bottom: 40px; } }
+
         @media (max-width: 768px) {
-            .product-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
-            .cert-img { height: 120px; }
-            .slogan { font-size: 20px; }
-            footer h3 { font-size: 28px !important; }
-            footer p { font-size: 17px !important; }
+            .hero h2 { font-size: 36px; }
+            .stat-grid { grid-template-columns: 1fr; }
+            .about-flex { flex-direction: column; }
+            .luxury-input { width: 90%; }
+            .footer-inner { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
-<div class="notice-bar" id="noticeBar">
-    📢 <span id="noticeText">Loading products...</span>
-</div>
-
 <header>
     <div class="nav-inner">
-        <div class="brand">
-            <img src="logo.png" class="brand-logo" alt="Logo">
-            <div class="brand-text"><h1 id="lbl-company">CJI Chemical</h1></div>
-        </div>
-        <div class="lang-area">
-            <button class="manual-lang-btn" onclick="toggleLocalLang()">🇨🇳 中文 / EN</button>
-        </div>
+        <a href="#" class="logo-area" onclick="showSection('home')">
+            <img src="logo.png" alt="CJI Logo">
+            <h1>CJI CHEMICAL</h1>
+        </a>
+        <nav>
+            <a onclick="showSection('home')" id="link-home" class="active">HOME</a>
+            <a onclick="showSection('products')" id="link-products">PRODUCTS</a>
+            <a onclick="showSection('about')" id="link-about">STRENGTH</a>
+            <a onclick="showSection('news')" id="link-news">NEWS</a>
+        </nav>
+        <button onclick="toggleLocalLang()" style="background:var(--primary); color:white; border:none; padding:8px 15px; border-radius:20px; cursor:pointer; font-weight:bold;">EN/CN</button>
     </div>
 </header>
 
-<!-- 展示区：包含背景图 office.png 和 两个证书 -->
-<div class="showcase-section">
-    <div class="slogan" id="lbl-slogan">Global Fine Chemical Supplier</div>
-    <div class="cert-container">
-        <img src="cert1.jpg" class="cert-img" alt="Certificate 1" onclick="window.open(this.src)">
-        <img src="cert2.jpg" class="cert-img" alt="Certificate 2" onclick="window.open(this.src)">
+<!-- HOME SECTION -->
+<div id="sec-home" class="page-section active">
+    <div class="hero">
+        <p id="lbl-subtitle">Since 1984 | Member of CJI Group</p>
+        <h2 id="lbl-slogan">Global Supply Chain<br>Solution Partner</h2>
+        <div class="stat-grid">
+            <div class="stat-card"><h3>1984</h3><p>Founding Year</p></div>
+            <div class="stat-card"><h3>80+</h3><p>Global Regions</p></div>
+            <div class="stat-card"><h3>AEO</h3><p>Certified Excellence</p></div>
+        </div>
+        <button onclick="showSection('products')" style="margin-top:50px; background:var(--accent); color:var(--primary); border:none; padding:18px 45px; border-radius:40px; font-size:18px; font-weight:bold; cursor:pointer; box-shadow: 0 10px 20px rgba(0,0,0,0.2);">View Product Catalog</button>
     </div>
 </div>
 
-<div class="toolbar">
-    <div class="search-container">
-        <input type="text" class="search-input" id="searchInput" placeholder="Search by Name or CAS...">
+<!-- PRODUCTS SECTION -->
+<div id="sec-products" class="page-section">
+    <div class="search-bar-wrap">
+        <input type="text" id="searchInput" class="luxury-input" placeholder="Search by Product Name or CAS Number...">
+    </div>
+    <div class="product-grid" id="grid"></div>
+</div>
+
+<!-- ABOUT & STRENGTH SECTION -->
+<div id="sec-about" class="page-section">
+    <div class="luxury-content">
+        <h2 class="section-title">Established <span>Reliability</span></h2>
+        <div class="about-flex">
+            <div class="about-text">
+                <p><b>China Jiangsu International Chemical Co., Ltd. (CJI Chemical)</b> is a professional international trading company under the state-owned CJI Group.</p>
+                <p>With over 30 years of experience, we specialize in Pharmaceutical Intermediates, Fine Chemicals, and Industrial Solvents. Our operations span across 80+ countries, building long-term partnerships with global giants.</p>
+                <p>We are not just a supplier; we are your strategic partner in the complex chemical landscape.</p>
+            </div>
+            <img src="office.png" class="about-img" alt="Office">
+        </div>
+
+        <h2 class="section-title">Global <span>Certifications</span></h2>
+        <div class="cert-grid">
+            <div class="cert-card"><img src="cert1.jpg"><p>AEO Advanced Certificate</p></div>
+            <div class="cert-card"><img src="cert2.jpg"><p>ISO 9001 / 14001</p></div>
+            <div class="cert-card"><img src="cert1.jpg"><p>Safety Standards Cert</p></div>
+            <div class="cert-card"><img src="cert2.jpg"><p>Chemical License</p></div>
+        </div>
     </div>
 </div>
 
-<div class="filters" id="filters"></div>
-
-<div class="product-grid" id="grid"></div>
-
-<div class="float-bar">
-    <a href="#" class="social-btn btn-top" id="btnTop" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;">⬆</a>
-    <a href="https://wa.me/8615295570878" target="_blank" class="social-btn btn-wa">💬</a>
-    <div class="cart-bar" id="cartBar" onclick="sendInquiry()">
-        <span id="cartText">🛒 Inquiry List</span>
-        <span id="cartCount" style="background:var(--secondary); padding:2px 10px; border-radius:12px; font-weight:bold;">0</span>
+<!-- NEWS SECTION -->
+<div id="sec-news" class="page-section">
+    <div class="luxury-content">
+        <h2 class="section-title">Market <span>Insights</span></h2>
+        <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap:30px;">
+            <div style="background:#fff; padding:30px; border-radius:20px;">
+                <h4 style="color:var(--accent); margin:0 0 10px 0;">Feb 2026</h4>
+                <h3 style="margin:0 0 15px 0;">CJI Chemical at CPHI 2026</h3>
+                <p style="color:#666;">Visit our booth to explore the latest innovations in pharmaceutical intermediates.</p>
+            </div>
+            <div style="background:#fff; padding:30px; border-radius:20px;">
+                <h4 style="color:var(--accent); margin:0 0 10px 0;">Jan 2026</h4>
+                <h3 style="margin:0 0 15px 0;">Annual Supply Chain Report</h3>
+                <p style="color:#666;">A comprehensive look at chemical logistics trends in Southeast Asia.</p>
+            </div>
+        </div>
     </div>
+</div>
+
+<div class="cart-bar" id="cartBar" onclick="sendInquiry()">
+    <span id="cartCount" style="background:var(--accent); color:var(--primary); padding:5px 12px; border-radius:20px; font-weight:bold;">0</span>
+    <span id="cartText">Products in Inquiry List. Click to Send Email.</span>
 </div>
 
 <footer>
     <div class="footer-inner">
-        <h3 id="lbl-contact">CONTACT US</h3>
-        <p><b>TEL:</b> +86-25-83273961 &nbsp;&nbsp;|&nbsp;&nbsp; <b>MOB:</b> +86-15295570878</p>
-        <p><b>EMAIL:</b> 
-            <a href="mailto:bensun@cjigroup.com.cn">bensun@cjigroup.com.cn</a> 
-            &nbsp;&nbsp;&nbsp;&nbsp;
-            <a href="mailto:darinsun820@gmail.com">darinsun820@gmail.com</a>
-        </p>
-        <p><b>ADD:</b> 9F, No.199-1, Guoji Road, Qinhuai District, Nanjing, China</p>
-        <div class="copyright">© 2026 China Jiangsu International Chemical Co., Ltd. All Rights Reserved.</div>
+        <div class="footer-logo">
+            <h2>CJI CHEMICAL</h2>
+            <p>Member of China Jiangsu International Group.</p>
+            <p style="opacity:0.5; font-size:14px;">© 2026 CJI Chemical. All Rights Reserved.</p>
+        </div>
+        <div class="contact-info">
+            <h3 style="color:var(--accent);">CONNECT</h3>
+            <p><b>TEL:</b> +86-25-83273961</p>
+            <p><b>MOB:</b> +86-15295570878</p>
+            <p><b>EMAIL:</b> <a href="mailto:bensun@cjigroup.com.cn">bensun@cjigroup.com.cn</a></p>
+            <p><b>ADD:</b> 9F, No.199-1, Guoji Road, Nanjing, China</p>
+        </div>
     </div>
 </footer>
 
 <script src="data.js"></script>
 <script src="config.js"></script>
-
 <script>
-    let db = typeof productData !== 'undefined' ? productData : [];
     let currentLang = 'en';
     let cart = new Set();
-    let currentFilter = 'All';
-    const featuredIDs = [1, 7, 175, 9, 10, 2, 8, 106, 65];
+    let currentSection = 'home';
+    let featuredIDs = [1, 7, 175, 9, 10, 2, 8, 106, 65];
 
-    const grid = document.getElementById('grid');
-    const searchInput = document.getElementById('searchInput');
+    // --- 逻辑控制 ---
+    function showSection(id) {
+        document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+        document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+        
+        document.getElementById('sec-' + id).classList.add('active');
+        document.getElementById('link-' + id).classList.add('active');
+        currentSection = id;
+        window.scrollTo({top: 0, behavior: 'smooth'});
+    }
 
     function highlightText(text, query) {
         if (!query || query.trim() === "") return text;
@@ -193,32 +271,21 @@
     }
 
     function render(data, query = "") {
+        const grid = document.getElementById('grid');
         grid.innerHTML = "";
         const t = ui[currentLang];
 
         data.forEach(item => {
             const isSelected = cart.has(item.id);
-            const isFeatured = featuredIDs.includes(item.id);
             const pInfo = item[currentLang] || item.en; 
-            const displayName = highlightText(pInfo.name, query);
-            const displayCAS = highlightText(item.cas, query);
-
             const card = document.createElement('div');
             card.className = `card ${isSelected ? 'selected' : ''}`;
             card.innerHTML = `
-                ${isFeatured ? '<div class="hot-ribbon">🔥 HOT</div>' : ''}
-                <div class="card-body" onclick="toggleCart(${item.id}, this.parentElement)">
-                    <span class="cas-tag">${displayCAS}</span>
-                    <div class="prod-name">${displayName}</div>
-                    <div class="prod-desc">${pInfo.app}</div>
-                    <div class="specs-row">
-                        ${pInfo.spec ? `<div class="spec-badge">🧪 ${pInfo.spec}</div>` : ''}
-                        ${pInfo.pack ? `<div class="spec-badge">📦 ${pInfo.pack}</div>` : ''}
-                    </div>
-                </div>
-                <div class="card-action">
-                    <button class="btn-copy" onclick="copyCardInfo(${item.id}, this)">📋</button>
-                    <button class="btn-add" onclick="toggleCart(${item.id}, this.parentElement.parentElement)">
+                <span class="cas-tag">${highlightText(item.cas, query)}</span>
+                <div class="prod-name">${highlightText(pInfo.name, query)}</div>
+                <p class="prod-desc" style="font-size:13px; color:#777; margin:0;">${pInfo.app}</p>
+                <div class="card-action" style="margin-top:20px; display:flex; gap:10px;">
+                    <button onclick="toggleCart(${item.id}, this.parentElement.parentElement)" style="flex:1; padding:10px; border-radius:10px; border:1px solid var(--primary); background:${isSelected ? 'var(--primary)' : 'white'}; color:${isSelected ? 'white' : 'var(--primary)'}; cursor:pointer; font-weight:bold;">
                         ${isSelected ? t.addedBtn : t.addBtn}
                     </button>
                 </div>
@@ -228,82 +295,34 @@
     }
 
     function applyFilters() {
-        const query = searchInput.value.toLowerCase();
-        let filtered = db.filter(item => {
-            if (currentFilter !== 'All' && item.cat !== currentFilter) return false;
-            const matchName = (item.en.name + (item.cn ? item.cn.name : "")).toLowerCase().includes(query);
-            const matchCas = item.cas.includes(query);
-            return matchName || matchCas;
+        const query = document.getElementById('searchInput').value.toLowerCase();
+        let filtered = productData.filter(item => {
+            return (item.en.name + (item.cn ? item.cn.name : "")).toLowerCase().includes(query) || item.cas.includes(query);
         });
-        filtered.sort((a, b) => {
-            const isAF = featuredIDs.includes(a.id);
-            const isBF = featuredIDs.includes(b.id);
-            if (isAF && !isBF) return -1;
-            if (!isAF && isBF) return 1;
-            return a.en.name.localeCompare(b.en.name);
-        });
-        render(filtered, searchInput.value);
+        render(filtered, query);
     }
 
     function toggleCart(id, cardEl) {
         if(cart.has(id)) cart.delete(id); else cart.add(id);
-        cardEl.classList.toggle('selected');
         document.getElementById('cartCount').innerText = cart.size;
         document.getElementById('cartBar').classList.toggle('show', cart.size > 0);
-        const btn = cardEl.querySelector('.btn-add');
-        if(btn) btn.innerText = cart.has(id) ? ui[currentLang].addedBtn : ui[currentLang].addBtn;
-    }
-
-    function copyCardInfo(id, btn) {
-        const item = db.find(p => p.id === id);
-        const text = `Product: ${item.en.name}\nCAS: ${item.cas}\nWeb: ${window.location.href}`;
-        navigator.clipboard.writeText(text).then(() => {
-            btn.innerText = "✅"; setTimeout(() => btn.innerText = "📋", 1000);
-        });
+        applyFilters(); // 刷新状态
     }
 
     function sendInquiry() {
-        const selected = db.filter(p => cart.has(p.id));
-        let body = "Dear CJI, I am interested in:\n\n";
+        const selected = productData.filter(p => cart.has(p.id));
+        let body = "Inquiry List:\n\n";
         selected.forEach((p, i) => body += `${i+1}. ${p.en.name} (CAS: ${p.cas})\n`);
-        window.location.href = `mailto:bensun@cjigroup.com.cn,darinsun820@gmail.com?subject=Inquiry&body=${encodeURIComponent(body)}`;
+        window.location.href = `mailto:bensun@cjigroup.com.cn?subject=Inquiry&body=${encodeURIComponent(body)}`;
     }
 
     function toggleLocalLang() {
         currentLang = currentLang === 'en' ? 'cn' : 'en';
-        updateUIText();
-        renderFilterButtons();
         applyFilters();
     }
 
-    function updateUIText() {
-        const t = ui[currentLang];
-        document.getElementById('lbl-company').innerText = t.company;
-        document.getElementById('lbl-slogan').innerText = t.slogan;
-        document.getElementById('noticeText').innerText = t.notice;
-        document.getElementById('searchInput').placeholder = t.searchPlaceholder;
-        document.getElementById('cartText').innerText = t.cartText;
-        document.getElementById('lbl-contact').innerText = t.contactTitle;
-        document.querySelector('.manual-lang-btn').innerText = currentLang === 'en' ? '🇨🇳 中文 / EN' : '🇺🇸 EN / 中文';
-    }
-
-    function renderFilterButtons() {
-        const container = document.getElementById('filters');
-        container.innerHTML = '';
-        const cats = ui[currentLang].cats;
-        Object.keys(cats).forEach(key => {
-            const btn = document.createElement('button');
-            btn.className = `filter-btn ${currentFilter === key ? 'active' : ''}`;
-            btn.innerText = cats[key];
-            btn.onclick = () => { currentFilter = key; renderFilterButtons(); applyFilters(); };
-            container.appendChild(btn);
-        });
-    }
-
-    window.onscroll = () => document.getElementById("btnTop").classList.toggle("show", window.scrollY > 300);
-    searchInput.addEventListener('input', applyFilters);
-    updateUIText();
-    renderFilterButtons();
+    // 启动
+    document.getElementById('searchInput').addEventListener('input', applyFilters);
     applyFilters();
 </script>
 </body>
