@@ -467,7 +467,8 @@ function highlightText(text, query) {
             return a.en.name.localeCompare(b.en.name);
         });
 
-        render(filtered);
+        const query = searchInput.value; // 获取原始输入值
+        render(filtered, query);         // 将 query 传给渲染函数
     }
 
     function toggleCart(id, cardEl, e) {
