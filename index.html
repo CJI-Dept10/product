@@ -136,7 +136,9 @@
 
         .card-action { padding: 10px; border-top: 1px solid #f8f9fa; background: #fff; }
         .btn-add { width: 100%; border: 1px solid #ddd; background: #fff; color: #666; padding: 6px; border-radius: 4px; cursor: pointer; font-size: 12px; transition: 0.2s; font-weight: 600; }
-        /* --- 新增：复制按钮样式 --- */
+        .btn-add:hover { background: var(--primary); border-color: var(--primary); color: white; }
+        .card.selected .btn-add { background: var(--secondary); border-color: var(--secondary); color: white; }
+         /* --- 新增：复制按钮样式 --- */
 .btn-copy {
     width: 30%; /* 占宽度的30% */
     border: 1px solid #eee;
@@ -158,8 +160,6 @@
     display: flex; /* 让按钮横向排列 */
     gap: 8px;      /* 按钮中间留缝隙 */
 }
-        .btn-add:hover { background: var(--primary); border-color: var(--primary); color: white; }
-        .card.selected .btn-add { background: var(--secondary); border-color: var(--secondary); color: white; }
 
         /* 悬浮区 */
         .float-bar { position: fixed; bottom: 30px; right: 20px; display: flex; flex-direction: column; gap: 12px; z-index: 999; align-items: flex-end; }
