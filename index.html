@@ -136,6 +136,28 @@
 
         .card-action { padding: 10px; border-top: 1px solid #f8f9fa; background: #fff; }
         .btn-add { width: 100%; border: 1px solid #ddd; background: #fff; color: #666; padding: 6px; border-radius: 4px; cursor: pointer; font-size: 12px; transition: 0.2s; font-weight: 600; }
+        /* --- 新增：复制按钮样式 --- */
+.btn-copy {
+    width: 30%; /* 占宽度的30% */
+    border: 1px solid #eee;
+    background: #f8f9fa;
+    color: #888;
+    padding: 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px; /* 图标大一点 */
+    transition: 0.2s;
+}
+.btn-copy:hover {
+    background: #e2e6ea;
+    color: #333;
+    border-color: #d6d8db;
+}
+/* 调整原来的按钮宽度，让它们排成一行 */
+.card-action {
+    display: flex; /* 让按钮横向排列 */
+    gap: 8px;      /* 按钮中间留缝隙 */
+}
         .btn-add:hover { background: var(--primary); border-color: var(--primary); color: white; }
         .card.selected .btn-add { background: var(--secondary); border-color: var(--secondary); color: white; }
 
@@ -358,6 +380,28 @@ function googleTranslateElementInit() {
                     <div class="prod-cat">${ui[currentLang].cats[item.cat] || item.cat}</div>
                     <div class="prod-desc">${pInfo.app}</div>
                     
+                    <div class="specs-row">
+                        ${(pInfo.spec || pInfo.pack) ? `
+                            ${pInfo.spec ? `<div class="spec-badge">🧪 ${pInfo.spec}</div>` : ''}
+                            ${pInfo.pack ? `<div class="spec-badge">📦 ${pInfo.pack}</div>` : ''}
+                        ` : `
+                            <div class="spec-badge" style="background:#fff; border:1px dashed #ccc; color:#999; font-style:italic;">
+                                📩 Contact for COA / TDS
+                            </div>
+                        `}
+                    </div>
+                </div>
+                
+                <!-- 修改了这里：增加了一个复制按钮 -->
+                <div class="card-action">
+                    <!-- 复制按钮 (📋) -->
+                    <button class="btn-copy" onclick="copyCardInfo(${item.id}, this)" title="Copy info">📋</button>
+                    
+                    <!-- 原来的加入按钮 (宽度会自动调整) -->
+                    <button class="btn-add" style="flex:1;">${isSelected ? t.addedBtn : t.addBtn}</button>
+                </div>
+            `;
+                    
                     <!-- 核心修改：这里加了逻辑判断 -->
                     <!-- 如果有规格(spec)或包装(pack)，显示蓝色标签 -->
                     <!-- 如果没有，显示灰色的“咨询”标签，填补空白 -->
@@ -455,6 +499,40 @@ function googleTranslateElementInit() {
     updateUIText();
     renderFilterButtons();
     applyFilters();
+    // --- 新增：一键复制功能 ---
+    function copyCardInfo(id, btn) {
+        // 1. 找到该产品数据
+        const item = db.find(p => p.id === id);
+        const pInfo = item[currentLang] || item.en; // 优先复制当前语言版本
+        
+        // 2. 生成要复制的文本格式 (专门为 WhatsApp/微信 优化)
+        const textToCopy = `*Product:* ${pInfo.name}
+*CAS:* ${item.cas}
+${pInfo.spec ? `*Spec:* ${pInfo.spec}` : ''}
+${pInfo.pack ? `*Pack:* ${pInfo.pack}` : ''}
+----------------
+*Usage:* ${pInfo.app}
+🔗 Check more: ${window.location.href}`;
+
+        // 3. 执行复制
+        navigator.clipboard.writeText(textToCopy).then(() => {
+            // 4. 成功的视觉反馈 (图标变对勾)
+            const originalText = btn.innerText;
+            btn.innerText = "✅";
+            btn.style.color = "green";
+            
+            // 1.5秒后变回去
+            setTimeout(() => {
+                btn.innerText = originalText;
+                btn.style.color = "";
+            }, 1500);
+        }).catch(err => {
+            alert("Copy failed, please copy manually.");
+        });
+        
+        // 阻止冒泡 (防止触发卡片点击)
+        event.stopPropagation();
+    }
 </script>
 </body>
 </html>
